@@ -13,19 +13,24 @@ import org.apache.spark.sql.SparkSession;
  * Hello world!
  *
  */
-public class App {
+public class SparkReader {
     public static void main(String[] args) throws LifecycleException, AnalysisException
     {
-        CreateSparkSession.getInstance(); 
-        SparkSession session = new CreateSparkSession().getSession(); //starts SparkSession
+        CreateSparkSession startSession = CreateSparkSession.getInstance(); //Starts SparkSession
+        SparkSession session = startSession.getSession(); //pulls a reference to the session
+        if (session != null){
+            System.out.println("A SESSION DOES INDEED EXIST!!!");
+        }
         String fileName = "vgsales-12-4-2019-short.csv";
+        //String fileName = "sample.csv";
         Dataset<Row> data = new LoadCSV().getCSVFileSession(fileName);
 
         data.printSchema();
 
-        data.createGlobalTempView("salesshort");
+        data.createOrReplaceTempView("salesshort");
 
-        session.sql("SELECT * FROM global_temp.salesshort").show();
-        //session.sql("WHERE Publisher=\'Nintendo\'").show();
+        //data.show();
+
+        session.sql("SELECT * FROM salesshort WHERE Publisher=\'Nintendo\'").show();
     }
 }

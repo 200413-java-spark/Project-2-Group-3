@@ -7,7 +7,7 @@ public class CreateSparkSession {
     private static CreateSparkSession instance;
 
     //creates a singleton
-    public CreateSparkSession(){}
+    private CreateSparkSession(){}
     public static CreateSparkSession getInstance(){
         if (instance == null){
             instance = new CreateSparkSession();
