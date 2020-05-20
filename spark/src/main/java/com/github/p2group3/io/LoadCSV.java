@@ -8,7 +8,6 @@ import org.apache.spark.sql.SparkSession;
 
 public class LoadCSV {
     CreateSparkSession session = CreateSparkSession.getInstance();
-    //CreateContext context = CreateContext.getInstance();
     
     public Dataset<Row> getCSVFileSession(String fileName){
         
@@ -21,15 +20,4 @@ public class LoadCSV {
 
         return dataCSV;
     }
-    /*
-    public JavaRDD<String> getCSVFileContext(String fileName){
-        
-        JavaSparkContext sc = context.getContext();
-        if (sc == null){
-            System.out.println("SPARKCONTEXT CODE FAILURE!!!");
-        }
-        JavaRDD<String> chessStringRDD = sc.textFile("src/resources/"+fileName);
-
-        return chessStringRDD;
-    }*/
 }

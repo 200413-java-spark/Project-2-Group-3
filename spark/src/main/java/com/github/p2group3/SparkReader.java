@@ -1,20 +1,18 @@
 package com.github.p2group3;
 
-import java.util.function.ToDoubleFunction;
-
 import com.github.p2group3.io.LoadCSV;
 import com.github.p2group3.startup.CreateSparkSession;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.spark.sql.AnalysisException;
+import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.DoubleType;
 
 /**
- * Hello world!
+ * Reads in data from a csv and performs various operations
  *
  */
 public class SparkReader {
@@ -24,18 +22,34 @@ public class SparkReader {
         SparkSession session = startSession.getSession(); //pulls a reference to the session
 
         String fileName = "vgsales-12-4-2019.csv";
-        //String fileName = "sample.csv";
         Dataset<Row> data = new LoadCSV().getCSVFileSession(fileName).cache();
-
         data.printSchema();
 
-        //data.createOrReplaceTempView("salesshort");
-
-        //data.show();
+        data.createOrReplaceTempView("dataset0");
+        Dataset<Row> salesCol = session.sql("SELECT Rank, COALESCE(Total_Shipped, Global_Sales) AS Total_Global_Sales FROM dataset0");
+        salesCol.createOrReplaceTempView("salesCol");
+        salesCol.show(300);
+        Column testCol = salesCol.col("Total_Global_Sales").cast(DataTypes.DoubleType);
 
         Dataset<Row> saleDataDouble1 = data.withColumn("Global_Sales", data.col("Global_Sales").cast(DataTypes.DoubleType));
         Dataset<Row> saleDataDouble = saleDataDouble1.withColumn("Year", data.col("Year").cast(DataTypes.IntegerType));
         saleDataDouble.createOrReplaceTempView("salesshort");
+
+        saleDataDouble.show(300);
+
+        
+        Dataset<Row> data2 = data.withColumn("Global_Sales", testCol);
+        data2.createOrReplaceTempView("dataset1");
+        Dataset<Row> data3 = session.sql("ALTER TABLE dataset1 DROP Total_Shipped");
+        data3.show(100);
+        
+        
+        //data.createOrReplaceTempView("salesshort");
+
+        //data.show();
+
+        
+
 
         //session.sql("SELECT * FROM salesshort WHERE Publisher=\'Nintendo\'").show();
         //session.sql("SELECT Name, Publisher, Global_Sales FROM salesshort WHERE Publisher=\'Nintendo\'").show();
