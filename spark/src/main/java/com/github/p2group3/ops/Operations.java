@@ -1,0 +1,117 @@
+package com.github.p2group3.ops;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.types.DataTypes;
+
+public class Operations {
+    
+    public Operations() {
+    }
+
+    public void runOperations(Dataset<Row> data, SparkSession session){
+
+        data.createOrReplaceTempView("dataset0");
+        //data.show();
+        //headers for the read in table
+        String[] headers = data.columns();
+        
+        int firstH = 3;//primary category - string
+        int seconH = 12;//depependent - int/double
+        int thirdH = 17;//independent - int/double
+
+        Dataset<Row> selectedCategoryPre = session.sql("SELECT "+headers[firstH]+", "
+            +headers[seconH]+", "+headers[thirdH]+" FROM dataset0").na().drop();//drops null values using .na().drop() from table
+
+        Dataset<Row> selectedCategory = selectedCategoryPre
+            .withColumn(headers[seconH], 
+            selectedCategoryPre.col(headers[seconH]).cast(DataTypes.DoubleType))
+            .withColumn(headers[thirdH], 
+            selectedCategoryPre.col(headers[thirdH]).cast(DataTypes.DoubleType))
+            .cache();
+
+        //selectedCategory.show();
+        selectedCategory.createOrReplaceTempView("newtable");
+
+        Dataset<Row> sCCount = session.sql("SELECT "+headers[firstH]+
+            " ,COUNT(*) AS New_Column FROM newtable GROUP BY "+headers[firstH]).cache();
+        sCCount.createOrReplaceTempView("tableOfCategories");
+
+        int selectCount = (int) sCCount.count();
+        //System.out.println(selectCount);
+        //sCCount.show();
+        List<Row> list1 = new ArrayList<>();
+        list1 = sCCount.select(headers[firstH]).takeAsList(selectCount);
+
+        //list1.get(0).get(0).toString();
+
+        String[] option1 = {"SUM","AVG"};
+        int choice2 = 0;
+
+        List<Dataset<Row>> addList = new ArrayList<>();
+
+        for (int i =0; i< selectCount; i++){
+            //System.out.println(list1.get(i).get(0).toString());
+
+            Dataset<Row> pickTable = session.sql("SELECT "+headers[seconH]+
+            ", "+headers[thirdH]+" FROM newtable WHERE "+headers[firstH]+
+            "=\'"+list1.get(i).get(0).toString().replace("'", "\'\'")+"\'").na().drop().cache();
+            pickTable.createOrReplaceTempView("pickTable");
+            Dataset<Row> yearSales = session.sql("SELECT "+headers[thirdH]+" ,ROUND("+option1[choice2]+"("+headers[seconH]+"),2) AS Totals FROM pickTable GROUP BY "+headers[thirdH]);
+            yearSales.createOrReplaceTempView("ysTable");
+            Dataset<Row> createdYearsTables = session.sql("SELECT * FROM ysTable ORDER BY "+headers[thirdH]);
+            addList.add(createdYearsTables);
+        }
+
+        int flag1 = 0;
+        while(flag1 ==0){
+            for (int i =0; i< selectCount; i++){
+                System.out.print(i + "-");
+                System.out.println(list1.get(i).get(0).toString());}
+
+            System.out.print("Pick Row to display: ");
+            int choice = Integer.parseInt(System.console().readLine());
+
+            if (choice == -1) {
+                flag1 = 1;
+            }
+            else{
+                addList.get(choice).show(50);
+                System.out.println(list1.get(choice).get(0).toString());
+                addList.get(choice).coalesce(1).write().mode("overwrite").option("header", "true").csv("spark/src/resources/saveTest.csv");
+            }
+        }
+    }
+
+
+}
+
+/*
+for (int i = 0; i < headers.length; i++){
+            System.out.print(i+" ");
+            System.out.println(headers[i]);
+        }
+
+0 Rank
+1 Name
+2 basename
+3 Genre
+4 ESRB_Rating
+5 Platform
+6 Publisher
+7 Developer
+8 VGChartz_Score
+9 Critic_Score
+10 User_Score
+11 Global_Sales
+12 NA_Sales
+13 PAL_Sales
+14 JP_Sales
+15 Other_Sales
+16 Year
+17 Vgchartzscore
+*/

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.p2group3.io.LoadCSV;
+import com.github.p2group3.ops.Operations;
 import com.github.p2group3.startup.CreateSparkSession;
+import com.github.p2group3.startup.FileParser;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.spark.sql.AnalysisException;
@@ -24,29 +26,14 @@ public class SparkReader {
     {
         CreateSparkSession startSession = CreateSparkSession.getInstance(); //Starts SparkSession
         SparkSession session = startSession.getSession(); //pulls a reference to the session
-        //reads in CSV data
-        String fileName = "vgsales-12-4-2019.csv";
-        Dataset<Row> data = new LoadCSV().getCSVFileSession(fileName).cache();
-        //data.printSchema();
-        //drops rows that are not important
-        Dataset<Row> data2 = data.drop(data
-        .col("Last_Update")).drop(data.col("url"))
-        .drop(data.col("status")).drop(data
-        .col("img_url"));
 
-        data2.createOrReplaceTempView("dataset0");
-        //data2.show();
-        String[] headers = data2.columns();
-        for (int i = 0; i < headers.length; i++){
-            System.out.print(i+" ");
-            System.out.println(headers[i]);
-        }
-
-        int firstH = 3;
-        int seconH = 12;
-
+        Dataset<Row> data = new FileParser().parseFile();
+        new Operations().runOperations(data, session);
+        
+        /* 109
+        //code block 3
         Dataset<Row> selectedCategoryPre = session.sql("SELECT "+headers[firstH]+", "
-            +headers[seconH]+", Year FROM dataset0").na().drop();//drops null values using .na().drop() from table
+            +headers[seconH]+", "+headers[thirdH]+" FROM dataset0").na().drop();//drops null values using .na().drop() from table
 
         Dataset<Row> selectedCategory = selectedCategoryPre.withColumn(headers[seconH], 
             selectedCategoryPre.col(headers[seconH]).cast(DataTypes.DoubleType)).cache();
@@ -67,7 +54,7 @@ public class SparkReader {
         //list1.get(0).get(0).toString();
 
         String option1 = "SUM";
-        String option2 = "AVE";
+        String option2 = "AVG";
 
         List<Dataset<Row>> addList = new ArrayList<>();
 
@@ -75,12 +62,12 @@ public class SparkReader {
             //System.out.println(list1.get(i).get(0).toString());
 
             Dataset<Row> pickTable = session.sql("SELECT "+headers[seconH]+
-            ", Year FROM newtable WHERE "+headers[firstH]+
-            "=\'"+list1.get(i).get(0).toString()+"\'").na().drop().cache();
+            ", "+headers[thirdH]+" FROM newtable WHERE "+headers[firstH]+
+            "=\'"+list1.get(i).get(0).toString().replace("'", "\'\'")+"\'").na().drop().cache();
             pickTable.createOrReplaceTempView("pickTable");
-            Dataset<Row> yearSales = session.sql("SELECT Year ,ROUND("+option1+"("+headers[seconH]+"),2) AS Totals FROM pickTable GROUP BY Year");
+            Dataset<Row> yearSales = session.sql("SELECT "+headers[thirdH]+" ,ROUND("+option1+"("+headers[seconH]+"),2) AS Totals FROM pickTable GROUP BY "+headers[thirdH]);
             yearSales.createOrReplaceTempView("ysTable");
-            Dataset<Row> createdYearsTables = session.sql("SELECT * FROM ysTable ORDER BY Year");
+            Dataset<Row> createdYearsTables = session.sql("SELECT * FROM ysTable ORDER BY "+headers[thirdH]);
             addList.add(createdYearsTables);
         }
 
@@ -99,8 +86,12 @@ public class SparkReader {
             else{
                 addList.get(choice).show(50);
                 System.out.println(list1.get(choice).get(0).toString());
+                addList.get(choice).coalesce(1).write().mode("overwrite").option("header", "true").csv("spark/src/resources/saveTest.csv");
             }
         }
+        */
+
+
         //list1.forEach(x -> System.out.println(x.get(0).toString()));
         /*
         Dataset<Row> data2Cloned = data2.toDF(headers[0],headers[1],headers[2],
