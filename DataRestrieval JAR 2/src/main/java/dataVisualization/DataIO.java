@@ -10,9 +10,11 @@ public class DataIO {
 	private String inputCSV;
 	private ArrayList<Double> x = new ArrayList<Double>(0);
 	private ArrayList<Double> y = new ArrayList<Double>(0);
-	private String xTitle;
-	private String yTitle;
+	static String xTitle;
+	static String yTitle;
 
+	
+	//need another class to extract S3 bucket CSV String location
 	public DataIO(String inputCSV) {
 		this.inputCSV = inputCSV;
 	}
@@ -31,20 +33,13 @@ public class DataIO {
 					this.xTitle = values[0].toString();
 					this.yTitle = values[1].toString();
 					i++;
-					System.out.println("i = " + i);
-					System.out.println("line 34 if, values = " + values[0] );
 				}else {
 					// this adds the currently parsed line to the 2-dimensional string array
-					System.out.println("line 37 else, check Double cast ** = " + Double.valueOf(values[1]));
 					Double temp = Double.valueOf(values[0]);
 					Double temp2 = Double.valueOf(values[1]);
-					System.out.println("here");
 					this.x.add( temp );
-					System.out.println("h");
 					this.y.add( temp2 ); // issue
-					System.out.println("line 40 after issue");
 				}
-				System.out.println("line 42 out" );
 			}
 
 			inputStream.close();

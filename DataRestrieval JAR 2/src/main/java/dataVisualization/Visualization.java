@@ -6,6 +6,9 @@ import java.util.Arrays;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
 
+import java.io.*;
+import java.util.List;
+
 public class Visualization {
 
 	public static void main(String[] args) {
@@ -23,13 +26,11 @@ public class Visualization {
 		 * end test
 		 */
 
-		// Display Scatter Graph
+//		// Display Scatter Graph
 		String csvName = "C:/Users/music/Documents/workspace-spring-tool-suite-4-4.6.1.RELEASE/dataVisualization/sample.csv";
 		String tableTitle = "Test Title";
-		String xName = "x-axis";
-		String yName = "y-axis";
-		Plotter p = new Plotter(csvName, tableTitle, xName, yName);
-		p.genScatter();
+		Plotter p = new Plotter(csvName, tableTitle);
+//		p.genScatter();
 
 		// Fitter
 		DataIO d = new DataIO(csvName);
@@ -39,13 +40,39 @@ public class Visualization {
 		Fitter f = new Fitter(d.getX(), d.getY());
 		System.out.println("27");
 		f.curveFitter();
-		System.out.println(Arrays.toString(f.getCoeff()) ); // double[]
+		double[] coeff = f.getCoeff() ; // double[]
 		
 		// Plot overlay trendline and scatterplot
-		// Generate data for trendline
+		// Generate data for trendline - DONE
+		
+		// OBSERVED convert to double[] 
+		double[] xObs = arrayList2Array( d.getX() );
+		double[] yObs = arrayList2Array( d.getY() );
+		
+		// EXPECTED convert to double[]
+		ContinuousToDiscrete c2D = new ContinuousToDiscrete( coeff );
+		double[] xExp = c2D.removeDuplicates(xObs);
+		double[] yExp = f.discretize();
+		
+		// Generate figure
+		p.multiPlot(xObs, yObs, xExp, yExp); //double[] xObs, double[] yObs, double[] xExp, double[] yExp);		
 		
 		// Compute correlation coefficient
 		
 		
+	}
+
+	public static double[] arrayList2Array(ArrayList<Double> list) {
+		Object[] array = list.toArray();
+		double[] arrDouble = new double[list.size()];
+		int indx = 0;
+
+		for (Object o : array) {
+			double s = (double) o;
+			arrDouble[indx] = s;
+			indx++;
+		}
+		
+		return arrDouble;
 	}
 }

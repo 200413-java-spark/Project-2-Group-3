@@ -11,6 +11,7 @@ import tech.tablesaw.*;
 import tech.tablesaw.plotly.Plot;
 import tech.tablesaw.plotly.api.ScatterPlot;
 import tech.tablesaw.plotly.components.Figure;
+import tech.tablesaw.plotly.components.Layout;
 import tech.tablesaw.selection.*;
 import tech.tablesaw.sorting.*;
 import tech.tablesaw.table.*;
@@ -28,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import tech.tablesaw.plotly.components.Page;
 import tech.tablesaw.plotly.display.Browser;
+import tech.tablesaw.plotly.traces.ScatterTrace;
 
 public class Plotter {
 	private String csvName;
@@ -48,11 +50,17 @@ public class Plotter {
 		this.yName = yName;
 	}
 
+	public Plotter(String csvName, String tableTitle) {
+		this.csvName = csvName;
+		this.tableTitle = tableTitle;
+	}
+
+	
 	public void genScatter() {
 		try	
 		{
 			Table tableName = Table.read().csv(csvName);
-			Figure fig = ScatterPlot.create("aa", tableName, "GrLivArea", "SalePrice");
+			Figure fig = ScatterPlot.create(this.tableTitle, tableName, "GrLivArea", "SalePrice");
 			Plot.show(fig);
 			// tableTitle, tableName, xName, yName)
 		} 
@@ -62,6 +70,20 @@ public class Plotter {
 		}
 
 	}
+	
+	/**
+	 *  Multiple Trace Scatter Plots
+	 */
+	public void multiPlot(double[] xObs, double[] yObs, double[] xExp, double[] yExp) {
+		DataIO io = new DataIO(this.csvName);
+		ScatterTrace traceObs = ScatterTrace.builder(xObs,yObs).build();
+		ScatterTrace traceExp = ScatterTrace.builder(xExp, yExp).mode(ScatterTrace.Mode.LINE).build();
+		Layout layout = Layout.builder().width(800).height(700).title(io.getyTitle() + " over " + io.getxTitle()).build();
+		Plot.show(new Figure(layout, traceObs, traceExp));		
+	}
+	
+	
+	
 
 	// Getter and Setters
 	public String getCsvName() {
