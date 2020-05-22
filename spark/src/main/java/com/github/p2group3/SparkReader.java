@@ -25,8 +25,8 @@ public class SparkReader {
         CreateSparkSession startSession = CreateSparkSession.getInstance(); //Starts SparkSession
         SparkSession session = startSession.getSession(); //pulls a reference to the session
         //reads in CSV data
-        String fileName = "vgsales-12-4-2019.csv";
-        Dataset<Row> data = new LoadCSV().getCSVFileSession(fileName).cache();
+    
+        Dataset<Row> data = new LoadCSV().getCSVFileSession();
         //data.printSchema();
         //drops rows that are not important
         Dataset<Row> data2 = data.drop(data
