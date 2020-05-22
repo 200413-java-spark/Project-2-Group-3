@@ -52,7 +52,7 @@ public class Plotter {
 		try	
 		{
 			Table tableName = Table.read().csv(csvName);
-			Figure fig = ScatterPlot.create("aa", tableName, "x", "y");
+			Figure fig = ScatterPlot.create("aa", tableName, "GrLivArea", "SalePrice");
 			Plot.show(fig);
 			// tableTitle, tableName, xName, yName)
 		} 
