@@ -5,9 +5,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.p2g3</groupId>
-  <artifactId>readFromAWS</artifactId>
+  <artifactId>parentPom</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>readFromAWS</name>
 
@@ -53,39 +53,8 @@
     </dependency>
   </dependencies>
 
-  <build>
-     <plugins>
-        
-        <plugin>            
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+<modules>  <module>sparkTest</module>
+    <module>database</module>
+  </modules>
 
-      <plugin>            
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
-          <configuration>
-            <archive>
-              <manifest>
-                <addClasspath>true</addClasspath>
-                <classpathPrefix>dependency/</classpathPrefix>
-                <mainClass>com.github.p2g3.s3testing.S3Test3</mainClass>
-              </manifest>
-            </archive>       
-          </configuration>
-      </plugin>
-      
-      </plugins>
-  </build>
 </project>
