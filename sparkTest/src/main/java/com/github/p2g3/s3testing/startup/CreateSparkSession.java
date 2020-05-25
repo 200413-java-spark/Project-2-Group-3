@@ -23,13 +23,15 @@ public class CreateSparkSession {
                 .builder()
                 .master("local")
                 .appName("spark")
+                .config("fs.s3a.access.key", "AKIAXMLIKAXCVRHQMZU3")
+                .config("fs.s3a.secret.key", "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")
                 .getOrCreate();
                 System.out.println("CREATING SESSION!!!");
 
-                sparkSession.sparkContext().setLogLevel("WARN");
+                /*sparkSession.sparkContext().setLogLevel("WARN");
                 sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.endpoint", "s3-us-east-2.amazonaws.com");
                 sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "AKIAXMLIKAXCVRHQMZU3");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "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");
+                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "reHCYWJ6SIFbRCflBFRm5WGVOe0SjFlRmRpmKMut");*/
             }
     }
     

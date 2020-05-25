@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.DataTypes;
 
@@ -107,7 +108,11 @@ public class Operations {
             else{
                 addList.get(choice).show(50);
                 System.out.println(list1.get(choice).get(0).toString());
-                addList.get(choice).coalesce(1).write().mode("overwrite").option("header", "true").csv("sparkTest/src/resources/saveTest.csv");
+                addList.get(choice)
+                .coalesce(1).write()
+                .mode(SaveMode.Overwrite)
+                .option("header", "true")
+                .csv("sparkTest/src/resources/saveTest.csv");
             }
         }
     }
