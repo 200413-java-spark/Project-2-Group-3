@@ -28,8 +28,8 @@ public class CreateSparkSession {
 
                 sparkSession.sparkContext().setLogLevel("WARN");
                 sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.endpoint", "s3-us-east-2.amazonaws.com");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "AKIAJZDHCBVU4JKIJRSA");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "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");
+                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "AKIAXMLIKAXCVRHQMZU3");
+                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "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");
             }
     }
     
