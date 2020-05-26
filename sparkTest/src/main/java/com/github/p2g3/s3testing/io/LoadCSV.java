@@ -15,8 +15,11 @@ public class LoadCSV {
         if (sparkSession == null){
             System.out.println("SPARKSESSION CODE FAILURE!!!");
         }
-        Dataset<Row> dataCSV = sparkSession.read().format("csv")
-            .option("header", "true").load(fileName); 
+        Dataset<Row> dataCSV = sparkSession
+            .read()
+            .format("csv")
+            .option("header", "true")
+            .load(fileName); 
 
         return dataCSV;
     }
