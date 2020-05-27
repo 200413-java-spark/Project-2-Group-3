@@ -36,13 +36,13 @@ public class Fitter {
 		coeff = coeffDouble;
 	}
 	
-	public double[] discretize() {
+	public double[] discretize(double[] xExp) {
 		PolynomialFunction function = new PolynomialFunction(this.coeff);
 
-		double[] fitted = new double[x.size()];
+		double[] fitted = new double[xExp.length];
 
-		for (int i = 0; i < x.size(); i++) {
-			fitted[i] = function.value(i);
+		for (int i = 0; i < xExp.length; i++) {
+			fitted[i] = function.value(xExp[i]);
 		}
 
 		this.fittedCurve = fitted;

@@ -10,7 +10,8 @@ public class DataIO {
 	private String inputCSV;
 	private ArrayList<Double> x = new ArrayList<Double>(0);
 	private ArrayList<Double> y = new ArrayList<Double>(0);
-	static String xTitle;
+	// want to access from another class, don't want new instance (plotter)
+	static String xTitle; 
 	static String yTitle;
 
 	
@@ -20,7 +21,7 @@ public class DataIO {
 	}
 
 	public void CSVList() {
-		File file = new File( inputCSV );
+		File file = new File( this.inputCSV );
 		int i = 0;
 		Scanner inputStream;
 		try {
@@ -30,22 +31,20 @@ public class DataIO {
 				String line = inputStream.next();
 				String[] values = line.split(",");
 				if (i == 0) {
-					this.xTitle = values[0].toString();
-					this.yTitle = values[1].toString();
+					DataIO.xTitle = values[0].toString();
+					DataIO.yTitle = values[1].toString();
 					i++;
-				}else {
-					// this adds the currently parsed line to the 2-dimensional string array
+				}else {   // this adds the currently parsed line to the 2-dimensional string array
 					Double temp = Double.valueOf(values[0]);
 					Double temp2 = Double.valueOf(values[1]);
 					this.x.add( temp );
 					this.y.add( temp2 ); // issue
 				}
 			}
-
 			inputStream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	
@@ -56,7 +55,7 @@ public class DataIO {
 	
 	
 	public ArrayList<Double> getX() {
-		return x;
+		return this.x;
 	}
 
 	public void setX(ArrayList<Double> x) {
@@ -64,7 +63,7 @@ public class DataIO {
 	}
 
 	public ArrayList<Double> getY() {
-		return y;
+		return this.y;
 	}
 
 	public void setY(ArrayList<Double> y) {

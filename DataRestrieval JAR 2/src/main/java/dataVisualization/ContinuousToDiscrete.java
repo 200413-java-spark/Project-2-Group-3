@@ -1,6 +1,8 @@
 package dataVisualization; // SQL, or s3 input connection
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
@@ -29,33 +31,16 @@ public class ContinuousToDiscrete {
 		this.fittedCurve = fitted;
 	}
 	
-	public double[] removeDuplicates(double[] xObs) {
-		Arrays.sort(xObs); // no return, sorts itself
-		int n = xObs.length;		
-		
-		// Return, if array is empty or contains a single element 
-        if (n==0 || n==1) {
-            return xObs; 
-        }
-        
-        double[] temp = new double[n]; 
-          
-        // Start traversing elements 
-        int j = 0; 
-        for (int i=0; i<n-1; i++) 
-            // If current element is not equal to next element then store that current element 
-            if (xObs[i] != xObs[i+1]) 
-                temp[j++] = xObs[i]; 
-          
-        // Store the last element as whether it is unique or repeated, it hasn't stored previously 
-        temp[j++] = xObs[n-1];    
-          
-        // Modify original array 
-        for (int i=0; i<j; i++) { 
-            xObs[i] = temp[i]; 
-        }
-        
-		this.xExp = xObs;
+	public double[] removeDuplicates(ArrayList<Double> xObs) {
+		Double min = Collections.min(xObs); ///////
+		Double max = Collections.max(xObs);		
+		double[] tempReturn = new double[(int) (max-min)];
+		int cnt = 0;
+		for (int i = min.intValue(); i<max.intValue(); i++) {
+			tempReturn[cnt] = i;
+			cnt++;
+		}
+		this.xExp = tempReturn;
 		return this.xExp;
 	}
 }

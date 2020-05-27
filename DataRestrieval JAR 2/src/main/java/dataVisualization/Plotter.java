@@ -75,11 +75,10 @@ public class Plotter {
 	 *  Multiple Trace Scatter Plots
 	 */
 	public void multiPlot(double[] xObs, double[] yObs, double[] xExp, double[] yExp) {
-		DataIO io = new DataIO(this.csvName);
 		ScatterTrace traceObs = ScatterTrace.builder(xObs,yObs).build();
 		ScatterTrace traceExp = ScatterTrace.builder(xExp, yExp).mode(ScatterTrace.Mode.LINE).build();
-		Layout layout = Layout.builder().width(800).height(700).title(io.getyTitle() + " over " + io.getxTitle()).build();
-		Plot.show(new Figure(layout, traceObs, traceExp));		
+		Layout layout = Layout.builder().width(800).height(700).title(DataIO.yTitle + " over " + DataIO.xTitle).build();
+		Plot.show(new Figure(layout, traceObs, traceExp));		 ////////////
 	}
 	
 	
