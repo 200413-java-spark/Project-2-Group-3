@@ -19,8 +19,8 @@ public class CreateSparkSession {
     private void createSession(){
             // create session to load csv
             if (this.sparkSession == null){
-                String aKey = "";
-                String sKey = "";
+                String aKey = "AKIAXMLIKAXCVRHQMZU3";
+                String sKey = "reHCYWJ6SIFbRCflBFRm5WGVOe0SjFlRmRpmKMut";
 
             this.sparkSession = SparkSession
                 .builder()
@@ -33,14 +33,8 @@ public class CreateSparkSession {
 
                 /*sparkSession.sparkContext().setLogLevel("WARN");
                 sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.endpoint", "s3-us-east-2.amazonaws.com");
-<<<<<<< HEAD
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "ENTER KEY");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "ENTER KEY");
-                sparkSession.sparkContext().hadoopConfiguration().addResource("conf.xml");
-=======
                 sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "");
                 sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "");*/
->>>>>>> aa41ec9646fe94f5fe16714e449a229e6e6bc56e
             }
     }
     

@@ -108,7 +108,12 @@ public class Operations {
             else{
                 addList.get(choice).show(50);
                 System.out.println(list1.get(choice).get(0).toString());
-                addList.get(choice).coalesce(1).write().mode("overwrite").option("header", "true").csv("s3a://project-2-group-3-bucket-cpbc/Output/hello.csv");
+                addList.get(choice)
+                    .coalesce(1)
+                    .write()
+                    .mode("overwrite")
+                    .option("header", "true")
+                    .csv("s3a://project-2-group-3-bucket-cpbc/Output/hello.csv");
             }
         }
     }
