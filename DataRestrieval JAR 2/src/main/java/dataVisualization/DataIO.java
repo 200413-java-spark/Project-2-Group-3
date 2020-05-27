@@ -93,7 +93,7 @@ public class DataIO {
 		}
 
 		S3Object fullObject = null;
-		String key = "Output/" + csvName; /////////////////
+		String key = "Output/hello.csv/" + csvName; /////////////////
 		System.out.println("key = " + key);
 		System.out.println("Downloading an object");
 		fullObject = s3client.getObject(new GetObjectRequest("project-2-group-3-bucket-cpbc", key));
@@ -105,8 +105,19 @@ public class DataIO {
 		String line;
 		int count = 0;
 		try {
-			while ((line = reader.readLine()) != null && count < 10) {
-				System.out.println(line); /// STORE TO ARRAYLIST DOUBLE
+			while ((line = reader.readLine()) != null) {
+				//System.out.println(line); /// *****STORE TO ARRAYLIST DOUBLE*****
+				String[] values = line.split(",");
+				if( count ==0 ) {
+					DataIO.xTitle = values[0].toString();
+					DataIO.yTitle = values[1].toString();
+					count++;
+				}else {
+					Double temp = Double.valueOf(values[0]);
+					Double temp2 = Double.valueOf(values[1]);
+					this.x.add(temp);
+					this.y.add(temp2);
+				}
 				count++;
 			}
 		} catch (IOException e) {

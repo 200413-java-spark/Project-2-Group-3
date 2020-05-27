@@ -26,16 +26,16 @@ public class Visualization {
 	
 
 //		// Display Scatter Graph
-		String csvName = "sample2.csv"; //"C:/Users/music/Documents/workspace-spring-tool-suite-4-4.6.1.RELEASE/dataVisualization/sample.csv";
-		String tableTitle = "Test Title";
+		String csvName = "part-00000-05cd7a32-dc86-4fc8-b6ab-8cc517fbb525-c000.csv";//"sample.csv";//"hello.csv/part-00000-4cd5130f-f229-45f3-bbb4-7849a969b26e-c000.csv"; //"C:/Users/music/Documents/workspace-spring-tool-suite-4-4.6.1.RELEASE/dataVisualization/sample.csv";
+		String tableTitle = "Test Title"; // ******delete, make new constructor without title
 		Plotter p = new Plotter(csvName, tableTitle);
 //		p.genScatter();
 
 		// Trendline Fitter
 		DataIO d = new DataIO(csvName);
 		
-		// d.S3List(csvName, aKey, sKey); //////////////
-		d.CSVList();
+		d.S3List(csvName, "AKIAXMLIKAXCVRHQMZU3", "reHCYWJ6SIFbRCflBFRm5WGVOe0SjFlRmRpmKMut");//aKey, sKey); //////////////
+		//d.CSVList();
 		
 		Fitter f = new Fitter(d.getX(), d.getY()); // raw data to fit to
 		f.curveFitter();
