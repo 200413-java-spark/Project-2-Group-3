@@ -3,4 +3,3 @@ dataVisualization\CorrCoef.class
 dataVisualization\DataIO.class
 dataVisualization\ContinuousToDiscrete.class
 dataVisualization\Fitter.class
-dataVisualization\Plotter.class

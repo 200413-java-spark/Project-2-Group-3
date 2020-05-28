@@ -1,6 +1,7 @@
 package dataVisualization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,29 +20,16 @@ public class Visualization {
 	 * @throws InterruptedException 
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
-		System.out.println("Hello World");
-		
-		System.out.println("pausing for 10 seconds, making sure CSV is up in s3");
-		TimeUnit.SECONDS.sleep(10);
-
-		/**
-		 * Test
-		 */
-		// ADD SQL DOCKER POSTGRES, ALSO READ FROM SQL display data
-		// Clean Junk, research shell scripts, EMR, add JavaDoc comments
-		/**
-		 * end test
-		 */
 
 		// Load CSV
 		DataIO d = new DataIO();
-		d.S3List("<accessKey>", "<securityKey>");
+		d.S3List("AKIAXMLIKAXCQDB67KVH", "okyNPlSBPJPKiBY6OaF0A7V2e4jX92/EMXJjik+2");//("<accessKey>", "<securityKey>");
 
 		// Fit for Coefficients
 		Fitter f = new Fitter(d.getX(), d.getY());
 		f.curveFitter();
 		double[] coeff = f.getCoeff(); // ************ OUTPUT TO POSTGRES
+		System.out.println("b and m = " + Arrays.toString(coeff));
 
 		// OBSERVED convert to double[]
 		double[] xObs = arrayList2Array(d.getX());
@@ -51,10 +39,6 @@ public class Visualization {
 		ContinuousToDiscrete c2D = new ContinuousToDiscrete(coeff);
 		double[] xExp = c2D.removeDuplicates(d.getX());
 		double[] yExp = f.discretize(xExp);
-
-		// Generate figure overlay
-		Plotter p = new Plotter();
-		p.multiPlot(xObs, yObs, xExp, yExp);
 
 		// Compute correlation coefficient
 		CorrCoef cor = new CorrCoef();
