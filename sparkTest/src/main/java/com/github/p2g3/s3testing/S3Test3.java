@@ -17,10 +17,11 @@ public class S3Test3 {
         CreateSparkSession startSession = CreateSparkSession.getInstance(); //Starts SparkSession
         SparkSession session = startSession.getSession(); //pulls a reference to the session
 
-        InputVals val = new InputVals(args);
-
         Dataset<Row> data = new FileParser().parseFile();
         //data.printSchema();
+
+        InputVals val = new InputVals(args);
+        
         new Operations().runOperations(data, session, val);
 
         

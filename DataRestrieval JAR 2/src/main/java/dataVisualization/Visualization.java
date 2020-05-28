@@ -1,9 +1,7 @@
-package com.github.p2g3.dataVisualization;
+package dataVisualization;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import com.github.p2g3.dataVisualization.calculations.*;
 
 /**
  * This class runs the data visualization section of the big data pipeline with
@@ -21,9 +19,10 @@ public class Visualization {
 	 * @throws InterruptedException 
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		//System.out.println("Hello World");
+		// TODO Auto-generated method stub
+		System.out.println("Hello World");
 		
-		System.out.println("Pausing for 10 seconds, making sure CSV is up in S3");
+		System.out.println("pausing for 10 seconds, making sure CSV is up in s3");
 		TimeUnit.SECONDS.sleep(10);
 
 		/**
@@ -37,9 +36,7 @@ public class Visualization {
 
 		// Load CSV
 		DataIO d = new DataIO();
-		String akey = "AKIAXMLIKAXCU3ZATPJT";
-		String skey = "5sx6cFKqZsM/0BLlr7NAnKfAeQVtFcWGCbpeB+U/";
-		d.S3List(akey, skey);
+		d.S3List("<accessKey>", "<securityKey>");
 
 		// Fit for Coefficients
 		Fitter f = new Fitter(d.getX(), d.getY());
@@ -56,12 +53,12 @@ public class Visualization {
 		double[] yExp = f.discretize(xExp);
 
 		// Generate figure overlay
-		Plotter p = new Plotter();
-		p.multiPlot(xObs, yObs, xExp, yExp);
+		//Plotter p = new Plotter();
+		//p.multiPlot(xObs, yObs, xExp, yExp);
 
 		// Compute correlation coefficient
 		CorrCoef cor = new CorrCoef();
-		double r2 = cor.computeR2(d.getX(), d.getY()); // *******OUTPUT TO POSTGRES
+		double r2 = cor.computeR2(d.getX(), d.getY()); ///////////// *******OUTPUT TO POSTGRES
 		System.out.println("r2 = " + r2);
 
 	}

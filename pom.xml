@@ -59,8 +59,27 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>            
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 <modules>  <module>sparkTest</module>
-    <!--<module>dataRetrieval</module>-->
+    <module>dataRetrieval</module>
   </modules>
 
 </project>
