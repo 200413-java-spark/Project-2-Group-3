@@ -1,6 +1,7 @@
 package dataVisualization;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class runs the data visualization section of the big data pipeline with
@@ -15,10 +16,14 @@ public class Visualization {
 	 * to return coefficients for the dataset, and displays a overlay of the fitted
 	 * trendline and raw data scatter plot. The polynomial fitter coefficients and
 	 * the R^2 correlation correficient are persisted to SQL database.
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World");
+		
+		System.out.println("pausing for 10 seconds, making sure CSV is up in s3");
+		TimeUnit.SECONDS.sleep(10);
 
 		/**
 		 * Test
@@ -31,12 +36,12 @@ public class Visualization {
 
 		// Load CSV
 		DataIO d = new DataIO();
-		d.S3List("AKIAXMLIKAXC2EC4645V", "2UfPy3kmNHcTu/9mipX24B+yqZN+YV1KGdKObK+4");
+		d.S3List("<accessKey>", "<securityKey>");
 
 		// Fit for Coefficients
-		Fitter f = new Fitter(d.getX(), d.getY()); 
+		Fitter f = new Fitter(d.getX(), d.getY());
 		f.curveFitter();
-		double[] coeff = f.getCoeff(); //************ OUTPUT TO POSTGRES
+		double[] coeff = f.getCoeff(); // ************ OUTPUT TO POSTGRES
 
 		// OBSERVED convert to double[]
 		double[] xObs = arrayList2Array(d.getX());
@@ -53,7 +58,7 @@ public class Visualization {
 
 		// Compute correlation coefficient
 		CorrCoef cor = new CorrCoef();
-		double r2 = cor.computeR2(d.getX(), d.getY()); /////////////*******OUTPUT TO POSTGRES
+		double r2 = cor.computeR2(d.getX(), d.getY()); ///////////// *******OUTPUT TO POSTGRES
 		System.out.println("r2 = " + r2);
 
 	}
