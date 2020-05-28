@@ -1,41 +1,61 @@
 package dataVisualization;
 
-import java.io.*; 
 import java.util.*;
-
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
-import org.apache.commons.math3.fitting.WeightedObservedPoints; 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction; // II
+import org.apache.commons.math3.fitting.WeightedObservedPoints;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
-
+/**
+ * This class contains the methods necessary to perform polynomial fitting
+ * processes.
+ * 
+ * @author Revature Team 3 (Cynthia, Phuc, Christian, Brandon)
+ * @version 0.1.0
+ *
+ */
 public class Fitter {
 	private ArrayList<Double> x;
 	private ArrayList<Double> y;
-	//private ArrayList<Double> coeff;
 	private double[] coeff;
-	private double[] fittedCurve; //II
-	
-	
+	private double[] fittedCurve; // II
+
+	/**
+	 * Contructor method that takes in two array lists representing the independent
+	 * and dependent dataset.
+	 * 
+	 * @param x, independent observed dataset
+	 * @param y, dependent observed dataset
+	 */
 	public Fitter(ArrayList<Double> x, ArrayList<Double> y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
+	/**
+	 * This method performs the polynomial fit.
+	 */
 	public void curveFitter() {
 		// Collect data.
 		final WeightedObservedPoints obs = new WeightedObservedPoints();
-		for(int i = 0; i<x.size(); i++) {
-			obs.add( x.get(i), y.get(i) );
+		for (int i = 0; i < x.size(); i++) {
+			obs.add(x.get(i), y.get(i));
 		}
-		
+
 		// Instantiate fitter
 		final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(1);
-		
+
 		// Compute Coefficients
 		double[] coeffDouble = fitter.fit(obs.toList());
 		coeff = coeffDouble;
 	}
-	
+
+	/**
+	 * This method generates corresponding expected values based on the fitted
+	 * function.
+	 * 
+	 * @param xExp, expected independent variable dataset
+	 * @return expected dependent variable dataset
+	 */
 	public double[] discretize(double[] xExp) {
 		PolynomialFunction function = new PolynomialFunction(this.coeff);
 
@@ -48,13 +68,13 @@ public class Fitter {
 		this.fittedCurve = fitted;
 		return this.fittedCurve;
 	}
-	
-	
+
+	// getters/setters
 	public double[] getCoeff() {
 		return coeff;
 	}
 
-	public void setCoeff( double[] coeff) {
+	public void setCoeff(double[] coeff) {
 		this.coeff = coeff;
 	}
 
@@ -74,13 +94,12 @@ public class Fitter {
 		this.y = y;
 	}
 
-	public double[] getFittedCurve() { //II
+	public double[] getFittedCurve() { // II
 		return fittedCurve;
 	}
 
-	public void setFittedCurve(double[] fittedCurve) { //II
+	public void setFittedCurve(double[] fittedCurve) { // II
 		this.fittedCurve = fittedCurve;
 	}
-	
-	
+
 }

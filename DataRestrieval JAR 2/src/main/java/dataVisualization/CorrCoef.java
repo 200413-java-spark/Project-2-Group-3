@@ -1,18 +1,25 @@
 package dataVisualization;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+/**
+ * This class computes the R^2 correlation coefficient of two datasets.
+ * @author Revature Team 3 (Cynthia, Phuc, Christian, Brandon)
+ * @version 0.1.0 
+ */
 public class CorrCoef {
-	/**
-	 * Manual Method to compute correlation coefficient
-	 */
 	private ArrayList<Double> x;
 	private ArrayList<Double> y;
 	private double xBar;
 	private double yBar;
 
-	
+	/**
+	 * This method computes the R^2 correlation coefficient of two input arraylists.
+	 * 
+	 * @param x, independent variable arraylist data
+	 * @param y, dependent variable arraylist data
+	 * @return R^2 correlation coefficient
+	 */
 	public double computeR2(ArrayList<Double> x, ArrayList<Double> y) {
 		this.xBar = computeAverage(x);
 		this.yBar = computeAverage(y);
@@ -31,6 +38,12 @@ public class CorrCoef {
 		return 0; // avoid undefined
 	}
 	
+	/**
+	 * This method computes the mean.
+	 * 
+	 * @param t, input arraylist of data
+	 * @return mean of values in dataset
+	 */
 	public double computeAverage(ArrayList<Double> t) {
 		double sum = 0;
 		if (!t.isEmpty()) {
@@ -42,6 +55,13 @@ public class CorrCoef {
 		return sum;
 	}
 
+	/**
+	 * This method generates the resulting arraylist of t-t-bar.
+	 * 
+	 * @param t, data set arraylist
+	 * @param tBar, mean of dataset "t"
+	 * @return array list obtained from appliying a shift of t-bar to t
+	 */
 	public ArrayList<Double> tMinusTBar(ArrayList<Double> t, double tBar) {
 		ArrayList<Double> diff = new ArrayList<Double>();
 		for (int i = 0; i < t.size(); i++) {
@@ -50,6 +70,13 @@ public class CorrCoef {
 		return diff;
 	}
 	
+	/**
+	 * This method computes the item by item product of two arraylists.
+	 * 
+	 * @param a, arraylist a
+	 * @param b, arraylist b
+	 * @return item by item product of arraylist a and b
+	 */
 	public ArrayList<Double> arrayProduct(ArrayList<Double> a, ArrayList<Double> b){
 		ArrayList<Double> prod = new ArrayList<Double>();
 		for (int i = 0; i < a.size(); i++) {
@@ -57,7 +84,13 @@ public class CorrCoef {
 		}
 		return prod;	
 	}
-
+	
+	/**
+	 * This method returns the sum of an arraylist.
+	 * 
+	 * @param t, input arraylist
+	 * @return sum of all elements in t
+	 */
 	public double sumArray(ArrayList<Double> t) {
 		double sum = 0;
 			for (double xx : t) {
