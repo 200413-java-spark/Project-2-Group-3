@@ -13,14 +13,14 @@ public class Operations {
     public Operations() {
     }
 
-    public void runOperations(Dataset<Row> data, SparkSession session){
+    public void runOperations(Dataset<Row> data, SparkSession session, InputVals val){
 
         data.createOrReplaceTempView("dataset0");
         //data.show();
         //headers for the read in table
         String[] headers = data.columns();
         
-        System.out.println("Choose your category: \n"+
+        /*System.out.println("Choose your category: \n"+
         "3 Genre\n"+
         "4 ESRB_Rating\n"+
         "5 Platform\n"+
@@ -54,8 +54,13 @@ public class Operations {
         System.out.println("\nChoose your function: \n"+
         "0 SUM\n"+
         "1 AVG\n");
-        int choice2 = Integer.parseInt(System.console().readLine());//choice of function
+        int choice2 = Integer.parseInt(System.console().readLine());//choice of function*/
         String[] option1 = {"SUM","AVG"};
+        int firstH = val.catg;
+        int seconH = val.col2;
+        int thirdH = val.col1;
+        int choice2 = val.opChoice;
+
 
         //drops null values using .na().drop() from table
         Dataset<Row> selectedCategoryPre = session.sql("SELECT "+headers[firstH]+", "
@@ -92,19 +97,19 @@ public class Operations {
             addList.add(createdYearsTables);
         }
 
-        int flag1 = 0;
-        while(flag1 ==0){
-            for (int i =0; i< selectCount; i++){
+        //int flag1 = 0;
+        //while(flag1 ==0){
+            /*for (int i =0; i< selectCount; i++){
                 System.out.print(i + "-");
                 System.out.println(list1.get(i).get(0).toString());}
 
-            System.out.print("Pick Row to display: ");
-            int choice = Integer.parseInt(System.console().readLine());
-
-            if (choice == -1) {
-                flag1 = 1;
-            }
-            else{
+            System.out.print("Pick Row to display: ");*/
+            //int choice = Integer.parseInt(System.console().readLine());
+                int choice = val.subCatChoice;
+            //if (choice == -1) {
+            //    flag1 = 1;
+            //}
+            //else{
                 addList.get(choice).show(50);
                 System.out.println(list1.get(choice).get(0).toString());
                 addList.get(choice)
@@ -114,8 +119,8 @@ public class Operations {
                     .option("header", "true")
                     .csv("s3a://project-2-group-3-bucket-cpbc/Output/hello.csv");
             }
-        }
+        //}
     }
 
 
-}
+//}

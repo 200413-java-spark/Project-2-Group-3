@@ -19,8 +19,8 @@ public class CreateSparkSession {
     private void createSession(){
             // create session to load csv
             if (this.sparkSession == null){
-                String aKey = "AKIAXMLIKAXCVRHQMZU3";
-                String sKey = "reHCYWJ6SIFbRCflBFRm5WGVOe0SjFlRmRpmKMut";
+                String aKey = "";//these are old and don't work
+                String sKey = "";//these are old and don't work
 
             this.sparkSession = SparkSession
                 .builder()
@@ -31,10 +31,6 @@ public class CreateSparkSession {
                 .getOrCreate();
                 System.out.println("CREATING SESSION!!!");
 
-                /*sparkSession.sparkContext().setLogLevel("WARN");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.endpoint", "s3-us-east-2.amazonaws.com");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.access.key", "");
-                sparkSession.sparkContext().hadoopConfiguration().set("fs.s3a.secret.key", "");*/
             }
     }
     

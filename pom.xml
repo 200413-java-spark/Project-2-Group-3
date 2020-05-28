@@ -18,11 +18,11 @@
   </properties>
 
   <dependencies>
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.12</artifactId>
       <version>2.4.5</version>
-    </dependency>
+    </dependency>-->
 
     <dependency>
 			<groupId>org.apache.spark</groupId>
@@ -37,16 +37,16 @@
       <scope>test</scope>
     </dependency>
             -->
-    <dependency>
+    <!--<dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk</artifactId>
       <version>1.11.787</version>
-    </dependency>
-    <dependency>
+    </dependency>-->
+    <!--<dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
       <version>3.0.0</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-client</artifactId>
@@ -60,7 +60,7 @@
   </dependencies>
 
 <modules>  <module>sparkTest</module>
-    <module>database</module>
+    <!--<module>dataRetrieval</module>-->
   </modules>
 
 </project>

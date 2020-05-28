@@ -2,6 +2,7 @@ package com.github.p2g3.s3testing;
 
 import java.io.IOException;
 
+import com.github.p2g3.s3testing.ops.InputVals;
 import com.github.p2g3.s3testing.ops.Operations;
 import com.github.p2g3.s3testing.startup.CreateSparkSession;
 import com.github.p2g3.s3testing.startup.FileParser;
@@ -16,9 +17,11 @@ public class S3Test3 {
         CreateSparkSession startSession = CreateSparkSession.getInstance(); //Starts SparkSession
         SparkSession session = startSession.getSession(); //pulls a reference to the session
 
+        InputVals val = new InputVals(args);
+
         Dataset<Row> data = new FileParser().parseFile();
         //data.printSchema();
-        new Operations().runOperations(data, session);
+        new Operations().runOperations(data, session, val);
 
         
 //spark.sparkContext().hadoopConfiguration().addResource("conf.xml");
