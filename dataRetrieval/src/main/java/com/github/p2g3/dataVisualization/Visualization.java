@@ -1,9 +1,11 @@
 package com.github.p2g3.dataVisualization;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import com.github.p2g3.dataVisualization.calculations.*;
+import com.github.p2g3.dataVisualization.io.*;
 
 /**
  * This class runs the data visualization section of the big data pipeline with
@@ -23,28 +25,20 @@ public class Visualization {
 	public static void main(String[] args) throws InterruptedException {
 		//System.out.println("Hello World");
 		
-		System.out.println("Pausing for 10 seconds, making sure CSV is up in S3");
+		System.out.println("Pausing for 10 seconds making sure CSV is up in S3");
 		TimeUnit.SECONDS.sleep(10);
-
-		/**
-		 * Test
-		 */
-		// ADD SQL DOCKER POSTGRES, ALSO READ FROM SQL display data
-		// Clean Junk, research shell scripts, EMR, add JavaDoc comments
-		/**
-		 * end test
-		 */
 
 		// Load CSV
 		DataIO d = new DataIO();
-		String akey = "AKIAXMLIKAXCU3ZATPJT";
-		String skey = "5sx6cFKqZsM/0BLlr7NAnKfAeQVtFcWGCbpeB+U/";
-		d.S3List(akey, skey);
+		String akey = "";
+		String skey = "";
+		StorageVar savedVals = d.S3List(akey, skey);
 
 		// Fit for Coefficients
 		Fitter f = new Fitter(d.getX(), d.getY());
 		f.curveFitter();
 		double[] coeff = f.getCoeff(); // ************ OUTPUT TO POSTGRES
+		System.out.println("b and m = " + Arrays.toString(coeff));
 
 		// OBSERVED convert to double[]
 		double[] xObs = arrayList2Array(d.getX());
@@ -55,15 +49,16 @@ public class Visualization {
 		double[] xExp = c2D.removeDuplicates(d.getX());
 		double[] yExp = f.discretize(xExp);
 
-		// Generate figure overlay
-		Plotter p = new Plotter();
-		p.multiPlot(xObs, yObs, xExp, yExp);
-
 		// Compute correlation coefficient
 		CorrCoef cor = new CorrCoef();
 		double r2 = cor.computeR2(d.getX(), d.getY()); // *******OUTPUT TO POSTGRES
-		System.out.println("r2 = " + r2);
 
+		System.out.println("r2 = " + r2);
+		savedVals.insertVals((float)coeff[1], (float)coeff[0], (float)r2);
+
+		SqlDataSource dataSource = SqlDataSource.getInstance();
+		Dao<String[]> fileInRepo = new SqlRepo(dataSource);
+		fileInRepo.insertAll(savedVals);
 	}
 
 	/**

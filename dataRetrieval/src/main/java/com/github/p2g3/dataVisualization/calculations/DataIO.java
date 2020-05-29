@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.github.p2g3.dataVisualization.io.StorageVar;
 
 /**
  * This class performs the majority of the data input/output operations,
@@ -33,6 +34,7 @@ public class DataIO {
 	String bucketName = "project-2-group-3-bucket-cbpc"; // **
 	private ArrayList<String> allKeys = new ArrayList<String>(0);
 	static String key;
+	StorageVar saveVar;
 
 	/**
 	 * This class performs input from the S3 bucket, and sets the independent and
@@ -41,7 +43,7 @@ public class DataIO {
 	 * @param aKey S3 Access Key
 	 * @param sKey S3 Secret Key
 	 */
-	public void S3List(String aKey, String sKey) {
+	public StorageVar S3List(String aKey, String sKey) {
 		AWSCredentials credentials = new BasicAWSCredentials(aKey, sKey);
 		AmazonS3 s3client = AmazonS3ClientBuilder.standard()
 				.withCredentials(new AWSStaticCredentialsProvider(credentials)).withRegion(Regions.US_EAST_2).build();
@@ -59,12 +61,12 @@ public class DataIO {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(fullObject.getObjectContent()));
 		String line;
 		int count = 0;
+		
 		try {
 			while ((line = reader.readLine()) != null) {
 				String[] values = line.split(",");
 				if (count == 0) {
-					DataIO.xTitle = values[0].toString();
-					DataIO.yTitle = values[1].toString();
+					saveVar = new StorageVar(DataIO.yTitle = values[1].toString(), DataIO.xTitle = values[0].toString());
 					count++;
 				} else {
 					Double temp = Double.valueOf(values[0]);
@@ -77,6 +79,7 @@ public class DataIO {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return saveVar;
 	}
 
 	/**

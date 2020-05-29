@@ -1,9 +1,9 @@
 package com.github.p2g3.dataVisualization.calculations;
 
-import tech.tablesaw.plotly.Plot;
-import tech.tablesaw.plotly.components.Figure;
-import tech.tablesaw.plotly.components.Layout;
-import tech.tablesaw.plotly.traces.ScatterTrace;
+//import tech.tablesaw.plotly.Plot;
+//import tech.tablesaw.plotly.components.Figure;
+//import tech.tablesaw.plotly.components.Layout;
+//import tech.tablesaw.plotly.traces.ScatterTrace;
 
 /**
  * This class generates the observed data scatter plot and the expected
@@ -24,10 +24,10 @@ public class Plotter {
 	 * @param yExp, Expected dependent dataset
 	 */
 	public void multiPlot(double[] xObs, double[] yObs, double[] xExp, double[] yExp) {
-		ScatterTrace traceObs = ScatterTrace.builder(xObs, yObs).build();
+		/*ScatterTrace traceObs = ScatterTrace.builder(xObs, yObs).build();
 		ScatterTrace traceExp = ScatterTrace.builder(xExp, yExp).mode(ScatterTrace.Mode.LINE).build();
 		Layout layout = Layout.builder().width(800).height(700).title(DataIO.yTitle + " over " + DataIO.xTitle).build();
-		Plot.show(new Figure(layout, traceObs, traceExp));
+		Plot.show(new Figure(layout, traceObs, traceExp));*/
 	}
 
 }

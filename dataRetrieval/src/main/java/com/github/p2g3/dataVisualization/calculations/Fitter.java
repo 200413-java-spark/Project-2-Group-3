@@ -1,8 +1,10 @@
 package com.github.p2g3.dataVisualization.calculations;
 
-import java.util.*;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
+
+import java.util.ArrayList;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
 /**
