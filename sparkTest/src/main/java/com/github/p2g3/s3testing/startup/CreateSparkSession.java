@@ -19,8 +19,13 @@ public class CreateSparkSession {
     private void createSession(){
             // create session to load csv
             if (this.sparkSession == null){
+<<<<<<< HEAD
                 String aKey = "";//these are old and don't work
                 String sKey = "";//these are old and don't work
+=======
+                String aKey = "";
+                String sKey = "";
+>>>>>>> d1f925aff3d0786fa3e421819be897e0933222dc
 
             this.sparkSession = SparkSession
                 .builder()
