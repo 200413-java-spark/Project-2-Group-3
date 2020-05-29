@@ -17,50 +17,12 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <dependencies>
-    <!--<dependency>
-      <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.12</artifactId>
-      <version>2.4.5</version>
-    </dependency>-->
-
-    <dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-sql_2.12</artifactId>
-			<version>2.4.5</version>
-		</dependency>
-        <!--
-<dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-            -->
-    <!--<dependency>
-      <groupId>com.amazonaws</groupId>
-      <artifactId>aws-java-sdk</artifactId>
-      <version>1.11.787</version>
-    </dependency>-->
-    <!--<dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-common</artifactId>
-      <version>3.0.0</version>
-    </dependency>-->
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-client</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-aws</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-  </dependencies>
+<dependencies>
+</dependencies>
 
   <build>
     <plugins>
+
       <plugin>            
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
